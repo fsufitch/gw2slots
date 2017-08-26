@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "8.4.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
     "webpack:server": "webpack-dev-server --progress --color",
-    "postinstall": "webpack"
+    "heroku-postbuild": "webpack"
   },
   "repository": {
     "type": "git",
