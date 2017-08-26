@@ -10,8 +10,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const staticPath = "static"
-
 type webServer struct {
 	StaticDir   string
 	Environment *environment
@@ -44,8 +42,13 @@ func newWebServer(staticDir string) (server *webServer, err error) {
 func (s webServer) Start() error {
 	log.Println("Starting gw2slots server...")
 
+	router, err := s.createRoutes()
+	if err != nil {
+		return err
+	}
+
 	srv := &http.Server{
-		Handler: s.createRoutes(),
+		Handler: router,
 		Addr:    ":" + s.Environment.ServePort,
 	}
 
@@ -53,10 +56,20 @@ func (s webServer) Start() error {
 	return srv.ListenAndServe()
 }
 
-func (s webServer) createRoutes() *mux.Router {
+func (s webServer) createRoutes() (*mux.Router, error) {
 	router := mux.NewRouter()
 
-	resources.RegisterResourcePaths(router, s.StaticDir)
+	err := resources.RegisterResourcePaths(router, s.StaticDir)
+	if err != nil {
+		return nil, err
+	}
 
-	return router
+	fallbackHandler, err := resources.GetFallbackHandler(s.StaticDir)
+	if err != nil {
+		return nil, err
+	}
+
+	router.PathPrefix("/").Handler(fallbackHandler)
+
+	return router, nil
 }
