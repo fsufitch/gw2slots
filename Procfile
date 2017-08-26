@@ -1,1 +1,1 @@
-gw2slots serve .
+web: gw2slots serve .
