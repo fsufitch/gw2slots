@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/NYTimes/gziphandler"
+	"github.com/fsufitch/gw2slots/server/resources"
 	"github.com/gorilla/mux"
 )
 
@@ -56,12 +56,7 @@ func (s webServer) Start() error {
 func (s webServer) createRoutes() *mux.Router {
 	router := mux.NewRouter()
 
-	staticPrefix := fmt.Sprintf("/%s/", staticPath)
-	staticHandler := gziphandler.GzipHandler(http.StripPrefix(
-		staticPrefix,
-		http.FileServer(http.Dir(s.StaticDir)),
-	))
-	router.PathPrefix(staticPrefix).Handler(staticHandler)
+	resources.RegisterResourcePaths(router, s.StaticDir)
 
 	return router
 }
