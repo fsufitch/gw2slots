@@ -14,6 +14,7 @@
 .glide/
 vendor/
 
-####
-
+# Frontend-related stuff
+.awcache/
 node_modules/
+dist/

@@ -1,1 +1,1 @@
-web: bin/gw2slots serve .
+web: bin/gw2slots serve ./dist
