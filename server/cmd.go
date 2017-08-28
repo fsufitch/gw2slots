@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/fsufitch/gw2slots/server/gw2api"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -27,6 +28,23 @@ func RunCommand() {
 				}
 
 				log.Fatal(server.Start())
+				return nil
+			},
+		},
+
+		{
+			Name:  "script",
+			Usage: "sample \"command\" for manual functionality testing",
+			Action: func(c *cli.Context) error {
+				api := gw2api.GW2API{
+					BaseURL: gw2api.MainGW2BaseURL,
+					Key:     "abc",
+				}
+
+				files, err := api.Files().GetAllFiles()
+				fmt.Println(files)
+				fmt.Println(err)
+
 				return nil
 			},
 		},
