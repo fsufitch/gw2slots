@@ -5,9 +5,24 @@ import (
 	"log"
 	"os"
 
+	"github.com/fsufitch/gw2slots/server/db"
 	"github.com/fsufitch/gw2slots/server/gw2api"
 	"gopkg.in/urfave/cli.v1"
 )
+
+func runMigrations(c *cli.Context) error {
+	env, err := getEnvironment()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conn := db.DBFactory.GetPQConnection(env.DatabaseURL)
+	err = db.RunMigrations(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return err
+}
 
 // RunCommand runs the command line interface for gw2slots
 func RunCommand() {
@@ -23,13 +38,22 @@ func RunCommand() {
 				staticDir := c.Args().First()
 				server, err := newWebServer(staticDir)
 				if err != nil {
-					fmt.Fprintln(os.Stderr, err.Error())
-					return err
+					log.Fatal(err)
 				}
 
+				err = runMigrations(nil)
+				if err != nil {
+					log.Fatal(err)
+				}
 				log.Fatal(server.Start())
 				return nil
 			},
+		},
+
+		{
+			Name:   "migrate",
+			Usage:  "run all available migrations",
+			Action: runMigrations,
 		},
 
 		{

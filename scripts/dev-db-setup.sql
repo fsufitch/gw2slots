@@ -1,0 +1,3 @@
+CREATE USER gw2slots WITH PASSWORD 'gw2slots-dev';
+CREATE DATABASE gw2slots;
+GRANT ALL PRIVILEGES ON DATABASE gw2slots TO gw2slots; 

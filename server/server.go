@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/fsufitch/gw2slots/server/db"
+	"github.com/fsufitch/gw2slots/server/handlers"
 	"github.com/fsufitch/gw2slots/server/resources"
 	"github.com/gorilla/mux"
 )
@@ -58,6 +60,8 @@ func (s webServer) Start() error {
 
 func (s webServer) createRoutes() (*mux.Router, error) {
 	router := mux.NewRouter()
+	txChan := db.DBFactory.GenerateTx(s.Environment.DatabaseURL)
+	router.Handle("/health", healthCheckHandler{txChan})
 
 	err := resources.RegisterResourcePaths(router, s.StaticDir)
 	if err != nil {
@@ -69,7 +73,9 @@ func (s webServer) createRoutes() (*mux.Router, error) {
 		return nil, err
 	}
 
-	router.PathPrefix("/").Handler(fallbackHandler)
+	handlers.RegisterHandlers(router, txChan)
+
+	router.PathPrefix("/").Methods("GET").Handler(fallbackHandler)
 
 	return router, nil
 }

@@ -9,8 +9,9 @@ func (e errMissingEnvironmentVariable) Error() string {
 }
 
 type environment struct {
-	APIHost   string
-	ServePort string
+	APIHost     string
+	ServePort   string
+	DatabaseURL string
 }
 
 func getEnvironment() (*environment, error) {
@@ -19,6 +20,7 @@ func getEnvironment() (*environment, error) {
 	requiredVarsDestinations := map[string]*string{
 		"GW2SLOTS_API_HOST": &env.APIHost,
 		"PORT":              &env.ServePort,
+		"DATABASE_URL":      &env.DatabaseURL,
 	}
 
 	for varName, dest := range requiredVarsDestinations {

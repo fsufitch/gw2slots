@@ -2,9 +2,10 @@ package gw2api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
-	"net/url"
 	"strings"
 )
 
@@ -30,7 +31,7 @@ func (f Files) GetAllFiles() (map[string]string, error) {
 
 // GetFiles queries /v2/files?ids=...
 func (f Files) GetFiles(ids ...string) (map[string]string, error) {
-	url, _ := url.Parse("https://api.guildwars2.com")
+	url := f.API.BaseURL
 	url.Path = "/v2/files"
 
 	q := url.Query()
@@ -39,7 +40,6 @@ func (f Files) GetFiles(ids ...string) (map[string]string, error) {
 
 	resp, err := http.Get(url.String())
 	if err != nil {
-
 		return nil, err
 	}
 
@@ -48,6 +48,11 @@ func (f Files) GetFiles(ids ...string) (map[string]string, error) {
 	err = json.Unmarshal(body, &fileData)
 	if err != nil {
 		return nil, err
+	}
+
+	if resp.StatusCode != 200 {
+		log.Printf("[ERROR] API failed: %v", resp)
+		return nil, fmt.Errorf("Unknown API failure: %v", resp.Status)
 	}
 
 	fileMap := map[string]string{}
