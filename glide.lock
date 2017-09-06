@@ -1,5 +1,5 @@
-hash: 6b7287ceab12861626f7ddf96d5e4bb363e03cc40d309fc6c31be1c9b9132408
-updated: 2017-08-28T14:30:19.176830165-04:00
+hash: 297448a0d3ab0b8e7d3eb1abf1aff9b401d1a999e91f4873be2b27e58ba13b9d
+updated: 2017-09-06T16:29:20.375637782-04:00
 imports:
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
@@ -7,8 +7,12 @@ imports:
   version: bcd8bc72b08df0f70df986b97f95590779502d31
 - name: github.com/lib/pq
   version: 8837942c3e09574accbc5f150e2c5e057189cace
+  subpackages:
+  - oid
 - name: github.com/NYTimes/gziphandler
   version: 56545f4a5d46df9a6648819d1664c3a03a13ffdb
+- name: github.com/pressly/goose
+  version: 056a4d47dcc4d67fa3947a4f13945a5c690e568b
 - name: gopkg.in/urfave/cli.v1
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 testImports: []

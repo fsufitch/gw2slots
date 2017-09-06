@@ -6,3 +6,5 @@ import:
   version: ^1.4.0
 - package: github.com/NYTimes/gziphandler
 - package: github.com/lib/pq
+- package: github.com/pressly/goose
+  version: ^2.1.0
