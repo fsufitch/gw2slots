@@ -59,7 +59,10 @@ func GetAuthToken(tx *sql.Tx, tokenString string, allowExpired bool) (*AuthToken
 		&token.Expiration,
 	)
 
-	return &token, err
+	if err != nil {
+		return nil, err
+	}
+	return &token, nil
 }
 
 // GetValidAuthTokensForUser returns all valid tokens for a given user

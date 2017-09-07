@@ -21,7 +21,7 @@ func (h SecureHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	user, err := auth.UserForRequest(tx, r)
 	if err != nil {
-		writeClientError(w, http.StatusForbidden, err.Error())
+		writeClientError(w, http.StatusForbidden, "authorization failed")
 		return
 	}
 	if user == nil {

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/fsufitch/gw2slots/server/auth"
+	"github.com/fsufitch/gw2slots/server/db"
 )
 
 // loginHandler handles creating a new session, ingesting basic authentication
@@ -52,4 +53,41 @@ func (h loginHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
+}
+
+// ===
+
+type logoutHandler struct {
+	txGen <-chan *sql.Tx
+}
+
+func (h logoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	tx := <-h.txGen
+	defer tx.Rollback()
+
+	user, err := auth.UserForRequest(tx, r)
+	if _, ok := err.(auth.AuthorizationFailedError); ok {
+		writeClientError(w, http.StatusForbidden, "you are not logged in")
+		return
+	}
+	if err != nil {
+		writeServerError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tokens, err := db.GetValidAuthTokensForUser(tx, user.Username)
+	if err != nil {
+		writeServerError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	for _, token := range tokens {
+		token.Expire(tx)
+	}
+	if len(tokens) > 0 {
+		tx.Commit()
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
 }
