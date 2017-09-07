@@ -8,3 +8,5 @@ import:
 - package: github.com/lib/pq
 - package: github.com/pressly/goose
   version: ^2.1.0
+- package: github.com/satori/go.uuid
+  version: ^1.1.0

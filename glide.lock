@@ -1,5 +1,5 @@
-hash: 297448a0d3ab0b8e7d3eb1abf1aff9b401d1a999e91f4873be2b27e58ba13b9d
-updated: 2017-09-06T16:29:20.375637782-04:00
+hash: 47086b79088e9670792c799edbd108ec60ed529f48ae9c02ec64a9172035a86c
+updated: 2017-09-07T14:23:57.595155949-04:00
 imports:
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
@@ -13,6 +13,8 @@ imports:
   version: 56545f4a5d46df9a6648819d1664c3a03a13ffdb
 - name: github.com/pressly/goose
   version: 056a4d47dcc4d67fa3947a4f13945a5c690e568b
+- name: github.com/satori/go.uuid
+  version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: gopkg.in/urfave/cli.v1
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 testImports: []
