@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"log"
-	"time"
 
 	_ "github.com/fsufitch/gw2slots/server/db/migration" // Migrations for goose
 	_ "github.com/lib/pq"                                // Import PostgreSQL driver
@@ -42,7 +41,6 @@ func (f *ConnectionFactory) GenerateTx(dbURL string) <-chan *sql.Tx {
 			} else {
 				txChan <- tx
 			}
-			time.Sleep(1 * time.Second)
 		}
 	}()
 	return txChan

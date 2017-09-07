@@ -5,7 +5,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"log"
 	"net"
 	"net/http"
 	"strings"
@@ -68,7 +67,6 @@ func GetOrCreateAuthToken(tx *sql.Tx, username string, clientID string) (*db.Aut
 
 	var validToken *db.AuthToken
 	for _, token := range tokens {
-		log.Print(token)
 		if token.ClientID == clientID {
 			validToken = &token
 			break
