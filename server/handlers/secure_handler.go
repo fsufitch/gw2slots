@@ -5,14 +5,13 @@ import (
 	"net/http"
 
 	"github.com/fsufitch/gw2slots/server/auth"
-	"github.com/fsufitch/gw2slots/server/auth/permissions"
 )
 
 // SecureHandler is a HTTP handler wrapper for applying permissions restrictions
 type SecureHandler struct {
 	txGen          <-chan *sql.Tx
 	wrappedHandler http.Handler
-	allowFunc      permissions.AllowFunc
+	allowFunc      auth.AllowFunc
 }
 
 func (h SecureHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
