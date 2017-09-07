@@ -66,11 +66,11 @@ func (h logoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer tx.Rollback()
 
 	user, err := auth.UserForRequest(tx, r)
-	if _, ok := err.(auth.AuthorizationFailedError); ok {
-		writeClientError(w, http.StatusForbidden, "you are not logged in")
-		return
-	}
 	if err != nil {
+		if _, ok := err.(auth.AuthorizationFailedError); ok {
+			writeClientError(w, http.StatusForbidden, "you are not logged in")
+			return
+		}
 		writeServerError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -90,4 +90,29 @@ func (h logoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
+}
+
+// ===
+
+type currentUserHandler struct {
+	txGen <-chan *sql.Tx
+}
+
+func (h currentUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	tx := <-h.txGen
+	defer tx.Rollback()
+
+	user, err := auth.UserForRequest(tx, r)
+
+	if err != nil {
+		if _, ok := err.(auth.AuthorizationFailedError); ok {
+			writeClientError(w, http.StatusForbidden, "you are not logged in")
+			return
+		}
+		writeServerError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(user.Username))
 }

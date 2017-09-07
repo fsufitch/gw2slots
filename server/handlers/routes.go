@@ -20,6 +20,11 @@ func RegisterHandlers(router *mux.Router, txGen <-chan *sql.Tx) {
 		wrappedHandler: logoutHandler{txGen},
 		allowFunc:      func(u db.User, r *http.Request) bool { return true },
 	})
+	router.Path("/auth/current_user").Methods("GET").Handler(SecureHandler{
+		txGen:          txGen,
+		wrappedHandler: currentUserHandler{txGen},
+		allowFunc:      func(u db.User, r *http.Request) bool { return true },
+	})
 	router.Path("/user/{username}").Methods("GET").Handler(SecureHandler{
 		txGen:          txGen,
 		wrappedHandler: getUserHandler{txGen},
