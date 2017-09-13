@@ -38,10 +38,9 @@ module.exports = () => {
 
   config.resolve = {
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
-    // alias: [{
-    //   alias: 'jquery',
-    //   name: 'jquery/src/jquery',
-    // }],
+    alias: {
+      'fonts': root('ui', 'fonts'),
+    }
   };
 
   var atlConfigFile = root('ui', 'tsconfig.json');
@@ -52,7 +51,7 @@ module.exports = () => {
       {test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/, loader: 'file-loader'},
       {test: /\.json$/, loader: 'json-loader'},
       {test: /\.(css|scss|sass)$/, loaders: ['to-string-loader', 'css-loader', 'sass-loader']},
-      {test: /\.html$/, loader: 'html-loader'}
+      {test: /\.html$/, loader: 'html-loader'},
     ]
   };
 

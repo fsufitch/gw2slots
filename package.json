@@ -40,6 +40,7 @@
     "raw-loader": "^0.5.1",
     "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
     "to-string-loader": "^1.1.5",
     "typescript": "^2.4.2",
     "uglify-js": "^3.0.28",
@@ -48,11 +49,14 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "@angular/animations": "^4.3.6",
+    "@angular/cdk": "^2.0.0-beta.10",
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
     "@angular/core": "^4.3.6",
     "@angular/forms": "^4.3.6",
     "@angular/http": "^4.3.6",
+    "@angular/material": "^2.0.0-beta.10",
     "@angular/platform-browser": "^4.3.6",
     "@angular/platform-browser-dynamic": "^4.3.6",
     "@angular/router": "^4.3.6",

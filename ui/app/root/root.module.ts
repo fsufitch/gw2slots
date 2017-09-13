@@ -5,13 +5,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '../common';
 
 import { RootComponent } from './root.component';
+import { GlobalStylesComponent } from './global-styles.component';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
   declarations: [
-    RootComponent
+    RootComponent,
+    GlobalStylesComponent,
   ],
   bootstrap: [
     RootComponent,
