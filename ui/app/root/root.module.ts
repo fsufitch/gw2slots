@@ -8,6 +8,7 @@ import { RootComponent } from './root.component';
 import { NavigationComponent } from './navigation';
 import { HomepageComponent } from './homepage';
 import { FAQComponent } from './faq';
+import { AboutComponent } from './about';
 
 import { ROUTES } from './routes';
 
@@ -21,6 +22,7 @@ import { ROUTES } from './routes';
     NavigationComponent,
     HomepageComponent,
     FAQComponent,
+    AboutComponent,
   ],
   bootstrap: [
     RootComponent,

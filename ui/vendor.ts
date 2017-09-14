@@ -34,3 +34,6 @@ window.Popper = Popper;
 
 import 'bootstrap';
 require('style-loader!bootstrap/dist/css/bootstrap.min.css');
+
+import 'octicons';
+require('octicons/build/octicons.css');
