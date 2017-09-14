@@ -40,13 +40,13 @@ module.exports = () => {
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
     alias: {
       'fonts': root('ui', 'fonts'),
+      'jquery': 'jquery/dist/jquery.min',
     }
   };
 
   var atlConfigFile = root('ui', 'tsconfig.json');
   config.module = {
     rules: [
-      // {test: require.resolve("jquery"), loaders: ["expose-loader?$", "expose-loader?jQuery"] },
       {test: /\.ts$/, loader: 'awesome-typescript-loader?configFileName=' + atlConfigFile},
       {test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/, loader: 'file-loader'},
       {test: /\.json$/, loader: 'json-loader'},
@@ -63,11 +63,11 @@ module.exports = () => {
     new CommonsChunkPlugin({
       name: ['vendor', 'polyfill'],
     }),
-    // new webpack.ProvidePlugin({
-    //   jQuery: 'jquery',
-    //   $: 'jquery',
-    //   jquery: 'jquery',
-    // }),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery',
+    }),
     new webpack.LoaderOptionsPlugin({
       options: {
         postcss: [

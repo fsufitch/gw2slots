@@ -1,3 +1,5 @@
+///<reference path="./vendor-types.d.ts" />
+
 import '@angular/core';
 import '@angular/common';
 import '@angular/compiler';
@@ -19,6 +21,16 @@ import 'moment';
 
 import './fonts/vendor';
 
-//import 'jquery';
-//import 'bootstrap-sass';
-//require('style-loader!./vendor-styles.scss');
+import 'jquery';
+
+import { default as Popper } from 'popper.js';
+declare global {
+  interface Window {
+    Popper: Popper;
+  }
+}
+window.Popper = Popper;
+
+
+import 'bootstrap';
+require('style-loader!bootstrap/dist/css/bootstrap.min.css');

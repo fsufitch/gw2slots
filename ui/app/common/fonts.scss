@@ -7,7 +7,7 @@
     font-family: gw2map;
     src: url('~fonts/menomonia.eot');
     src: url('~fonts/menomonia.eot?#iefix') format('embedded-opentype'),
-         url('~fonts/menomonia.woff') format('woff'),
+         //url('~fonts/menomonia.woff') format('woff'), // woff support is buggy in browsers
          url('~fonts/menomonia.ttf') format('truetype'),
          url('~fonts/menomonia.svg#MenomoniaRegular') format('svg');
     font-weight: normal;
