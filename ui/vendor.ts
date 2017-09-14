@@ -8,8 +8,6 @@ import '@angular/platform-browser-dynamic';
 import '@angular/router';
 
 import '@angular/platform-browser/animations';
-import '@angular/material';
-require('style-loader!@angular/material/prebuilt-themes/deeppurple-amber.css');
 
 import '@ngrx/core';
 import '@ngrx/store';
