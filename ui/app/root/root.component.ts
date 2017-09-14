@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { RootStoreService, AppStartAction } from '../../store';
 
 @Component({
   selector: 'ng2app',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
     require('./root.component.scss'),
   ],
 })
-export class RootComponent {}
+export class RootComponent implements OnInit {
+  constructor(private rootStoreService: RootStoreService) {}
+  ngOnInit() {
+    this.rootStoreService.dispatch(new AppStartAction());
+  }
+}

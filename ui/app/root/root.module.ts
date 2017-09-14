@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-//import { EffectsModule } from '@ngrx/effects';
+import { EffectsModule } from '@ngrx/effects';
 
 import { CommonModule } from '../common';
+
+import { ApiModule } from '../api';
 
 import { RootComponent } from './root.component';
 import { NavigationComponent } from './navigation';
@@ -15,6 +17,8 @@ import { ROUTES } from './routes';
 @NgModule({
   imports: [
     CommonModule,
+    ApiModule,
+    EffectsModule.forRoot([]),
     RouterModule.forRoot(ROUTES),
   ],
   declarations: [

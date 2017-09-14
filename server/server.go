@@ -72,7 +72,7 @@ func (s webServer) createRoutes() (*mux.Router, error) {
 		return nil, err
 	}
 
-	fallbackHandler, err := resources.GetFallbackHandler(s.StaticDir)
+	fallbackHandler, err := resources.GetFallbackHandler(s.StaticDir, s.Environment.APIHost)
 	if err != nil {
 		return nil, err
 	}

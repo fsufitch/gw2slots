@@ -18,7 +18,6 @@ export class IconComponent  {
       console.error(`Octicon "${this.name}" does not exist`);
       return '[error]';
     }
-    console.log(octicons[this.name]);
     let svg: string = octicons[this.name].toSVG();
 
     return this.sanitizer.bypassSecurityTrustHtml(svg);

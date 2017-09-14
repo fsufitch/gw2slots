@@ -13,5 +13,26 @@
 <h2> For nerds </h2>
 
 <p>
-  API Status: <icon name="check"></icon>
+  <button class="btn btn-outline-secondary" (click)="refreshAPIStatus()">
+    <icon name="sync"></icon>
+  </button>
+  API Status:
+  <code>{{apiHost$ | async}}</code>
+  <span *ngIf="apiStatusUnknown$ | async">
+    <span class="badge badge-warning">
+      <icon name="zap"></icon> Unknown
+    </span>
+    Try refreshing it?
+  </span>
+  <span *ngIf="apiStatusUp$ | async">
+    <span class="badge badge-success">
+      <icon name="check"></icon> Up
+    </span>
+  </span>
+  <span *ngIf="apiStatusDown$ | async">
+    <span class="badge badge-danger">
+      <icon name="flame"></icon> Error!
+    </span>
+    <code>{{apiError$ | async}}</code>
+  </span>
 </p>
