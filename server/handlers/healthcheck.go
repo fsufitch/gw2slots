@@ -1,4 +1,4 @@
-package gw2slots
+package handlers
 
 import (
 	"database/sql"
@@ -10,6 +10,10 @@ type healthCheckHandler struct {
 }
 
 func (h healthCheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.TxGenerator
 	tx.Rollback()
 

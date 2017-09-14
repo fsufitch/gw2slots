@@ -6,9 +6,22 @@ import (
 	"log"
 	"net/http"
 	"path"
+
+	"github.com/fsufitch/gw2slots/server/handlers"
 )
 
 const indexFileName = "index.html"
+
+type fallbackHandler struct {
+	Wrapped http.Handler
+}
+
+func (h fallbackHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if handlers.ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+	h.Wrapped.ServeHTTP(w, r)
+}
 
 // GetFallbackHandler returns a fallback handler for the given static path
 func GetFallbackHandler(staticPath string) (http.Handler, error) {
@@ -18,5 +31,5 @@ func GetFallbackHandler(staticPath string) (http.Handler, error) {
 		return nil, fmt.Errorf("Error reading fallback index file %s: %v", indexFileName, err)
 	}
 
-	return newStaticHandler(data), nil
+	return fallbackHandler{newStaticHandler(data)}, nil
 }

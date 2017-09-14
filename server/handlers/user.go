@@ -45,6 +45,10 @@ type createUserHandler struct {
 }
 
 func (h createUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.txGen
 	defer tx.Rollback()
 
@@ -105,6 +109,10 @@ type getUserHandler struct {
 }
 
 func (h getUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.txGen
 	defer tx.Rollback()
 

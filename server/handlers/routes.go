@@ -11,6 +11,7 @@ import (
 // RegisterHandlers registers all the handlers at appropriate routes
 func RegisterHandlers(router *mux.Router, txGen <-chan *sql.Tx) {
 	// Public endpoints
+	router.Path("/health").Handler(healthCheckHandler{txGen})
 	router.Path("/auth/login").Methods("GET").Handler(loginHandler{txGen})
 	router.Path("/user").Methods("POST").Handler(createUserHandler{txGen})
 

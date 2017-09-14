@@ -9,9 +9,10 @@ func (e errMissingEnvironmentVariable) Error() string {
 }
 
 type environment struct {
-	APIHost     string
-	ServePort   string
-	DatabaseURL string
+	APIHost         string
+	ServePort       string
+	DatabaseURL     string
+	SSLRedirectHost string
 }
 
 func getEnvironment() (*environment, error) {
@@ -23,12 +24,20 @@ func getEnvironment() (*environment, error) {
 		"DATABASE_URL":      &env.DatabaseURL,
 	}
 
+	optionalVarsDestinations := map[string]*string{
+		"SSL_REDIR": &env.SSLRedirectHost,
+	}
+
 	for varName, dest := range requiredVarsDestinations {
 		value, err := requireEnvVar(varName)
 		if err != nil {
 			return nil, err
 		}
 		*dest = value
+	}
+
+	for varName, dest := range optionalVarsDestinations {
+		*dest = os.Getenv(varName)
 	}
 
 	return env, nil

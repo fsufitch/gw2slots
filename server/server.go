@@ -54,6 +54,11 @@ func (s webServer) Start() error {
 		Addr:    ":" + s.Environment.ServePort,
 	}
 
+	if s.Environment.SSLRedirectHost != "" {
+		log.Printf("Enabling prod SSL redirection, host: %s", s.Environment.SSLRedirectHost)
+		handlers.HerokuSSLRedirectHost = s.Environment.SSLRedirectHost
+	}
+
 	log.Printf("Serving on port %v", s.Environment.ServePort)
 	return srv.ListenAndServe()
 }
@@ -61,7 +66,6 @@ func (s webServer) Start() error {
 func (s webServer) createRoutes() (*mux.Router, error) {
 	router := mux.NewRouter()
 	txChan := db.DBFactory.GenerateTx(s.Environment.DatabaseURL)
-	router.Handle("/health", healthCheckHandler{txChan})
 
 	err := resources.RegisterResourcePaths(router, s.StaticDir)
 	if err != nil {

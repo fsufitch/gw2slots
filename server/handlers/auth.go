@@ -20,6 +20,10 @@ type loginResponseJSON struct {
 }
 
 func (h loginHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	username, password, ok := r.BasicAuth()
 	if !ok {
 		w.Header().Set("WWW-Authenticate", `Basic realm="gw2slots login"`)
@@ -62,6 +66,10 @@ type logoutHandler struct {
 }
 
 func (h logoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.txGen
 	defer tx.Rollback()
 
@@ -99,6 +107,10 @@ type currentUserHandler struct {
 }
 
 func (h currentUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.txGen
 	defer tx.Rollback()
 

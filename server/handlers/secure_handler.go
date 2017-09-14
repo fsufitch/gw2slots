@@ -15,6 +15,10 @@ type SecureHandler struct {
 }
 
 func (h SecureHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if ProdHerokuSSLRedirect(w, r) {
+		return
+	}
+
 	tx := <-h.txGen
 	defer tx.Rollback()
 
