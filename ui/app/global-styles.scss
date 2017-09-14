@@ -1,4 +1,4 @@
-@import "../common/fonts.scss";
+@import "./common/fonts.scss";
 
 html, body {
   width: 100%;
@@ -15,8 +15,4 @@ html, body {
     justify-content: flex-start;
     align-items: center;
   }
-}
-
-global-styles {
-  display: none;
 }

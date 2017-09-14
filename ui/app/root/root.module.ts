@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '../common';
 
 import { RootComponent } from './root.component';
-import { GlobalStylesComponent } from './global-styles.component';
 
 @NgModule({
   imports: [
@@ -13,7 +12,6 @@ import { GlobalStylesComponent } from './global-styles.component';
   ],
   declarations: [
     RootComponent,
-    GlobalStylesComponent,
   ],
   bootstrap: [
     RootComponent,

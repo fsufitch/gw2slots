@@ -8,6 +8,7 @@ if (['prod', 'deploy'].indexOf(process.env.ENV) > -1) {
 }
 
 export function main() {
+  require('style-loader!./app/global-styles.scss');
   return platformBrowserDynamic().bootstrapModule(RootModule);
 }
 
