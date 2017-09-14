@@ -45,7 +45,7 @@ type createUserHandler struct {
 }
 
 func (h createUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 
@@ -109,7 +109,7 @@ type getUserHandler struct {
 }
 
 func (h getUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 

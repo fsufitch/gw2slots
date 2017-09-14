@@ -20,8 +20,12 @@ func writeServerError(w http.ResponseWriter, statusCode int, text string) {
 // HerokuSSLRedirectHost holds the host where HTTPS redirection should go to
 var HerokuSSLRedirectHost = ""
 
-// ProdHerokuSSLRedirect redirects to using SSL, if configured to do so, and returns whether it did so
-func ProdHerokuSSLRedirect(w http.ResponseWriter, r *http.Request) bool {
+const hstsHeaderValue = "max-age=18000; includeSubDomains" // 5 minutes
+
+// HSTSRedirect redirects to using SSL, if configured to do so
+// If redirected, it also sets HSTS headers.
+// Returns true if redirection happened
+func HSTSRedirect(w http.ResponseWriter, r *http.Request) bool {
 	if HerokuSSLRedirectHost == "" {
 		return false
 	}
@@ -38,5 +42,6 @@ func ProdHerokuSSLRedirect(w http.ResponseWriter, r *http.Request) bool {
 		return true
 	}
 
+	w.Header().Set("Strict-Transport-Security", hstsHeaderValue)
 	return false
 }

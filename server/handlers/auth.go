@@ -20,7 +20,7 @@ type loginResponseJSON struct {
 }
 
 func (h loginHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 
@@ -66,7 +66,7 @@ type logoutHandler struct {
 }
 
 func (h logoutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 
@@ -107,7 +107,7 @@ type currentUserHandler struct {
 }
 
 func (h currentUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 

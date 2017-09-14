@@ -17,7 +17,7 @@ type fallbackHandler struct {
 }
 
 func (h fallbackHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if handlers.ProdHerokuSSLRedirect(w, r) {
+	if handlers.HSTSRedirect(w, r) {
 		return
 	}
 	h.Wrapped.ServeHTTP(w, r)

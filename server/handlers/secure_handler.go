@@ -15,7 +15,7 @@ type SecureHandler struct {
 }
 
 func (h SecureHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if ProdHerokuSSLRedirect(w, r) {
+	if HSTSRedirect(w, r) {
 		return
 	}
 
