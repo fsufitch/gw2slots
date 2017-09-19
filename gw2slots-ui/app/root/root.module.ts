@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 
 import { CommonModule } from 'gw2slots-ui/app/common';
-
 import { ApiModule } from 'gw2slots-ui/app/api';
 
 import { RootComponent } from './root.component';

@@ -41,7 +41,11 @@ module.exports = () => {
     alias: {
       'fonts': root('gw2slots-ui', 'fonts'),
       'jquery': 'jquery/dist/jquery.min',
-    }
+    },
+    modules: [
+      root('.'),
+      'node_modules',
+    ]
   };
 
   var atlConfigFile = root('gw2slots-ui', 'tsconfig.json');
@@ -57,7 +61,7 @@ module.exports = () => {
 
   config.plugins = [
     new CopyWebpackPlugin([{
-      from: root('ui', 'static'),
+      from: root('gw2slots-ui', 'static'),
       flatten: true,
     }]),
     new CommonsChunkPlugin({
@@ -94,7 +98,7 @@ module.exports = () => {
   }
 
   config.devServer = {
-    contentBase: root('ui'),
+    contentBase: root('gw2slots-ui'),
     historyApiFallback: true,
     quiet: false,
     stats: 'normal', // none (or false), errors-only, minimal, normal (or true) and verbose
