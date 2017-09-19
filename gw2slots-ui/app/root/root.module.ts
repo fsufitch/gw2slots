@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 
-import { CommonModule } from '../common';
+import { CommonModule } from 'gw2slots-ui/app/common';
 
-import { ApiModule } from '../api';
+import { ApiModule } from 'gw2slots-ui/app/api';
 
 import { RootComponent } from './root.component';
 import { NavigationComponent } from './navigation';

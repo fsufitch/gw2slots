@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { IconComponent } from './icon.component';
 
-import { StoreModule } from '../../store';
+import { StoreModule } from 'gw2slots-ui/store';
 
 const IMPORT_EXPORT = [
   BrowserModule,

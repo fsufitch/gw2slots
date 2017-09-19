@@ -10,7 +10,7 @@ import {
   APISetHealthAction,
   APIStatus,
   APIStateService,
-} from '../../store';
+} from 'gw2slots-ui/store';
 import {
   DiscoverAPIAction,
   RefreshAPIStatusAction,

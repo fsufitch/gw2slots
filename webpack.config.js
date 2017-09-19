@@ -26,9 +26,9 @@ module.exports = () => {
   }
 
   config.entry = {
-    app: './ui/main.ts',
-    polyfill: './ui/polyfill.ts',
-    vendor: './ui/vendor.ts',
+    app: root('gw2slots-ui', 'main.ts'),
+    polyfill: root('gw2slots-ui', 'polyfill.ts'),
+    vendor: root('gw2slots-ui', 'vendor.ts'),
   };
 
   config.output = {
@@ -39,12 +39,12 @@ module.exports = () => {
   config.resolve = {
     extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
     alias: {
-      'fonts': root('ui', 'fonts'),
+      'fonts': root('gw2slots-ui', 'fonts'),
       'jquery': 'jquery/dist/jquery.min',
     }
   };
 
-  var atlConfigFile = root('ui', 'tsconfig.json');
+  var atlConfigFile = root('gw2slots-ui', 'tsconfig.json');
   config.module = {
     rules: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader?configFileName=' + atlConfigFile},
@@ -82,7 +82,7 @@ module.exports = () => {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      template: root('ui', 'index.html'),
+      template: root('gw2slots-ui', 'index.html'),
       chunksSortMode: 'dependency',
     }),
   ];

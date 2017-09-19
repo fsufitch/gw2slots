@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { APIStateService, APIStatus } from '../../../store';
-import { RefreshAPIStatusAction } from '../../api';
+import { APIStateService, APIStatus } from 'gw2slots-ui/store';
+import { RefreshAPIStatusAction } from 'gw2slots-ui/app/api';
 
 @Component({
   selector: 'about',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RootStoreService, AppStartAction } from '../../store';
+import { RootStoreService, AppStartAction } from 'gw2slots-ui/store';
 
 @Component({
   selector: 'ng2app',
