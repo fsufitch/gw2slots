@@ -4,6 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { CommonModule } from 'gw2slots-ui/app/common';
 import { ApiModule } from 'gw2slots-ui/app/api';
+import { RegistrationModule } from 'gw2slots-ui/app/registration';
 
 import { RootComponent } from './root.component';
 import { NavigationComponent } from './navigation';
@@ -19,6 +20,7 @@ import { ROUTES } from './routes';
     ApiModule,
     EffectsModule.forRoot([]),
     RouterModule.forRoot(ROUTES),
+    RegistrationModule,
   ],
   declarations: [
     RootComponent,
