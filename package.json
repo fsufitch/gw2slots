@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/fsufitch/gw2slots#readme",
   "devDependencies": {
+    "@types/bootstrap": "^3.3.36",
     "@types/core-js": "^0.9.43",
     "@types/jquery": "^3.2.12",
     "@types/node": "^8.0.25",

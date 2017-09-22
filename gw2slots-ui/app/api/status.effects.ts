@@ -16,6 +16,8 @@ import {
   RefreshAPIStatusAction,
 } from './status.actions';
 
+import { formatHTTPError } from './common';
+
 declare var GW2SLOTS_API_HOST: string;
 
 @Injectable()
@@ -47,7 +49,7 @@ export class StatusEffects {
       new APISetHostAction({host: host}),
       new APISetHealthAction({
         status: !error ? APIStatus.Up : APIStatus.Down,
-        error: `${error}`,
+        error: formatHTTPError(error),
       })
     ));
 

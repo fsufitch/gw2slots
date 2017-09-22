@@ -1,19 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 
+import { SendRegistrationAction } from 'gw2slots-ui/app/api';
+import {
+  RegistrationStateService,
+  RegistrationStatus,
+  RegistrationResetAction,
+} from 'gw2slots-ui/store/registration';
 
 @Component({
   selector: "registration",
   template: require('./registration.component.html'),
 })
-export class RegistrationComponent {
-  model = {
+export class RegistrationComponent implements OnDestroy {
+  constructor(private registrationStateService: RegistrationStateService) {}
+
+  @ViewChild('registrationNotification') notificationModal: ElementRef;
+
+  private registrationStatus$ = this.registrationStateService.getStatus();
+  registrationSuccess$ = this.registrationStatus$.map(status => status === RegistrationStatus.Success);
+  registrationFailure$ = this.registrationStatus$.map(status => status === RegistrationStatus.Failure);
+
+  registeredAccountName$ = this.registrationStateService.getSuccessData().map(data => data.accountName);
+  registeredGameName$ = this.registrationStateService.getSuccessData().map(data => data.gameName);
+  registrationError$ = this.registrationStateService.getError();
+
+  popupSubscription = this.registrationSuccess$
+    .zip(this.registrationFailure$)
+    .filter(([success, fail]) => success || fail) // Whenever either a success or fail comes down the line
+    .subscribe(() => $(this.notificationModal.nativeElement).modal('show'));
+
+  model: {[key: string]:string} = {
     username: '',
     password: '',
     passwordVerify: '',
     apiKey: '',
   }
 
-  invalid = {
+  invalid: {[key: string]:string} = {
     username: '',
     password: '',
     apiKey: '',
@@ -37,5 +60,28 @@ export class RegistrationComponent {
     if (!this.model.apiKey) {
       this.invalid.apiKey = 'missing';
     }
+  }
+
+  trySubmit() {
+    this.updateValidity();
+    for (let key in this.invalid) {
+      if (!!this.invalid[key]) {
+        alert('The form has invalid values. Please fix them and try again.');
+        return;
+      }
+    }
+    this.registrationStateService.dispatch(new SendRegistrationAction({
+      username: this.model.username,
+      password: this.model.password,
+      apiKey: this.model.apiKey,
+    }));
+  }
+
+  resetRegistration() {
+    this.registrationStateService.dispatch(new RegistrationResetAction());
+  }
+
+  ngOnDestroy() {
+    this.popupSubscription.unsubscribe();
   }
 }

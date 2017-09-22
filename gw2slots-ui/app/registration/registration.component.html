@@ -11,7 +11,7 @@
       recognize item transfers.
     </p>
 
-    <form (ngSubmit)="updateValidity()">
+    <form (ngSubmit)="trySubmit()">
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" name="username" id="username" placeholder="Your new username"
@@ -76,5 +76,46 @@
   </div>
   <div class="col-sm-4">
     <img class="img-fluid" src="https://static.staticwars.com/quaggans/cheer.jpg" />
+  </div>
+</div>
+
+<div class="modal fade" #registrationNotification>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 [class]="(registrationSuccess$ | async) ? 'd-block' : 'd-none'" class="modal-title">
+          Registration Successful!
+        </h5>
+        <h5 [class]="!(registrationSuccess$ | async) ? 'd-block' : 'd-none'" class="modal-title">
+          Registration Failed!
+        </h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div [class]="(registrationSuccess$ | async) ? 'd-block' : 'd-none'">
+          <p>
+            Welcome! You have successfully registered the GW2Slots account
+            <em>{{registeredAccountName$ | async}}</em>
+            and connected it to the Guild Wars 2 account
+            <em>{{registeredGameName$ | async}}</em>.
+          </p>
+          <p> You can now log in using the password you provided.</p>
+        </div>
+
+        <div [class]="!(registrationSuccess$ | async) ? 'd-block' : 'd-none'">
+          <p> Oh no! Your registration attempt failed. The server said: </p>
+          <blockquote><em>{{registrationError$ | async}}</em></blockquote>
+          <p> If you continue to have problems, please contact an administrator. </p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetRegistration()">OK</button>
+      </div>
+    </div>
   </div>
 </div>

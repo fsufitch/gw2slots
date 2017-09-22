@@ -6,6 +6,6 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class NotLoggedInGuard implements CanActivate {
   canActivate(): Observable<boolean> {
-    return Observable.of(true);
+    return Observable.of(true);  // XXX: Stub
   }
 }
