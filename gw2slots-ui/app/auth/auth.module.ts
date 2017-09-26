@@ -4,21 +4,26 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { CommonModule } from 'gw2slots-ui/app/common';
 
-import { RegistrationComponent } from './registration.component';
+import * as registration from './registration';
+import * as login from './login';
 import { NotLoggedInGuard } from './not-logged-in.guard';
 
-import { ROUTES } from './routes';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(ROUTES),
+    RouterModule.forChild(registration.ROUTES),
   ],
   declarations: [
-    RegistrationComponent,
+    ...registration.COMPONENTS,
+    ...login.COMPONENTS,
   ],
   providers: [
     NotLoggedInGuard,
   ],
+  exports: [
+    ...registration.COMPONENTS,
+    ...login.COMPONENTS,
+  ]
 })
-export class RegistrationModule {}
+export class AuthModule {}

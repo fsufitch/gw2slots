@@ -16,7 +16,7 @@ import {
   RefreshAPIStatusAction,
 } from './status.actions';
 
-import { formatHTTPError } from './common';
+import { HTTPCommonService } from './http-common.service';
 
 declare var GW2SLOTS_API_HOST: string;
 
@@ -24,7 +24,7 @@ declare var GW2SLOTS_API_HOST: string;
 export class StatusEffects {
   constructor(
     private actions$: Actions,
-    private http: Http,
+    private httpCommon: HTTPCommonService,
     private apiStateService: APIStateService,
   ) {}
 
@@ -36,20 +36,17 @@ export class StatusEffects {
     .ofType(DiscoverAPIAction.type)
     .map(action => (<DiscoverAPIAction>action).payload.host)
     .map(host => host || GW2SLOTS_API_HOST)
-    .switchMap(host => this.http.get(`//${host}/health`)
-      .do(response => {
-        if (!response.ok) {
-          throw `${response.statusText}: ${response.text()}`
-        }
-      })
-      .map(response => ({host, response, error: null}))
-      .catch(error => Observable.of({host, response: <Response>null, error}))
+    .switchMap(host => this.httpCommon.simpleGet('health', {
+        host,
+        useToken: false,
+        responseOptions: {json: false},
+      }).map(response => ({host, response}))
     )
-    .flatMap(({host, response, error}) => Observable.of<Action>(
+    .flatMap(({host, response}) => Observable.of<Action>(
       new APISetHostAction({host: host}),
       new APISetHealthAction({
-        status: !error ? APIStatus.Up : APIStatus.Down,
-        error: !!error ? formatHTTPError(error) : null,
+        status: !response.error ? APIStatus.Up : APIStatus.Down,
+        error: response.error,
       })
     ));
 

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { RegistrationComponent } from './registration.component';
-import { NotLoggedInGuard } from './not-logged-in.guard';
+import { NotLoggedInGuard } from 'gw2slots-ui/app/auth/not-logged-in.guard';
 
 export const ROUTES: Routes = [
   {

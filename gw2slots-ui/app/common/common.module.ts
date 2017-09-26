@@ -6,8 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 
-
 import { IconComponent } from './icon.component';
+import { LocalStorageService } from './local-storage.service';
+import { LoginLocalStorageEffects } from './effects';
 
 import { StoreModule } from 'gw2slots-ui/store';
 
@@ -23,8 +24,10 @@ const IMPORT_EXPORT = [
 @NgModule({
   imports: [
     ...IMPORT_EXPORT,
+    EffectsModule.forFeature([LoginLocalStorageEffects]),
   ],
   providers: [
+    LocalStorageService,
   ],
   declarations: [
     IconComponent,
