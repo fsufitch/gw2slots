@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { SendRegistrationAction } from 'gw2slots-ui/app/api';
 import {
@@ -13,7 +14,10 @@ import {
   template: require('./registration.component.html'),
 })
 export class RegistrationComponent implements OnDestroy, OnInit {
-  constructor(private registrationStateService: RegistrationStateService) {}
+  constructor(
+    private registrationStateService: RegistrationStateService,
+    private router: Router,
+  ) {}
 
   @ViewChild('registrationNotification') notificationModal: ElementRef;
 
@@ -82,6 +86,9 @@ export class RegistrationComponent implements OnDestroy, OnInit {
   }
 
   resetRegistration() {
+    this.registrationSuccess$.take(1).filter(s => s).subscribe(() => {
+      this.router.navigate(['']);
+    })
     this.registrationStateService.dispatch(new RegistrationResetAction());
   }
 
