@@ -1,6 +1,6 @@
 import { Record } from 'immutable';
 
-export enum RegistrationStatus { NotSent=0, Success, Failure }
+export enum RegistrationStatus { NotSent=0, InProgress, Success, Failure }
 
 export interface RegistrationState {
   status: RegistrationStatus;
@@ -14,6 +14,10 @@ export class RegistrationState extends Record({
   successGameName: '',
   error: '',
 }) {
+  setInProgress() {
+    return <this>this.set('status', RegistrationStatus.InProgress);
+  }
+
   setSuccess(accountName: string, gameName: string) {
     return <this>this.merge({
       status: RegistrationStatus.Success,

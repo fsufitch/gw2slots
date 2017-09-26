@@ -49,7 +49,7 @@ export class StatusEffects {
       new APISetHostAction({host: host}),
       new APISetHealthAction({
         status: !error ? APIStatus.Up : APIStatus.Down,
-        error: formatHTTPError(error),
+        error: !!error ? formatHTTPError(error) : null,
       })
     ));
 

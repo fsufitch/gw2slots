@@ -1,22 +1,25 @@
-import { Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnDestroy, OnInit } from '@angular/core';
 
 import { SendRegistrationAction } from 'gw2slots-ui/app/api';
 import {
   RegistrationStateService,
   RegistrationStatus,
   RegistrationResetAction,
+  RegistrationSetInProgressAction,
 } from 'gw2slots-ui/store/registration';
 
 @Component({
   selector: "registration",
   template: require('./registration.component.html'),
 })
-export class RegistrationComponent implements OnDestroy {
+export class RegistrationComponent implements OnDestroy, OnInit {
   constructor(private registrationStateService: RegistrationStateService) {}
 
   @ViewChild('registrationNotification') notificationModal: ElementRef;
 
   private registrationStatus$ = this.registrationStateService.getStatus();
+  registrationNotSent$ = this.registrationStatus$.map(status => status == RegistrationStatus.NotSent);
+  registrationInProgress$ = this.registrationStatus$.map(status => status === RegistrationStatus.InProgress);
   registrationSuccess$ = this.registrationStatus$.map(status => status === RegistrationStatus.Success);
   registrationFailure$ = this.registrationStatus$.map(status => status === RegistrationStatus.Failure);
 
@@ -70,6 +73,7 @@ export class RegistrationComponent implements OnDestroy {
         return;
       }
     }
+    this.registrationStateService.dispatch(new RegistrationSetInProgressAction());
     this.registrationStateService.dispatch(new SendRegistrationAction({
       username: this.model.username,
       password: this.model.password,
@@ -79,6 +83,10 @@ export class RegistrationComponent implements OnDestroy {
 
   resetRegistration() {
     this.registrationStateService.dispatch(new RegistrationResetAction());
+  }
+
+  ngOnInit() {
+    $(this.notificationModal.nativeElement).on('hidden.bs.modal', () => this.resetRegistration());
   }
 
   ngOnDestroy() {

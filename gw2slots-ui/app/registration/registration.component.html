@@ -71,7 +71,9 @@
 
       </div>
 
-      <button type="submit" class="btn btn-primary">Create Account</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!(registrationNotSent$ | async)">Create Account</button>
+      <span *ngIf="registrationInProgress$ | async"class="text-muted">Please wait...</span>
+
     </form>
   </div>
   <div class="col-sm-4">
@@ -114,7 +116,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetRegistration()">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
       </div>
     </div>
   </div>

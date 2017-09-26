@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
 import { RegistrationStatus } from './registration.state';
 
+export class RegistrationSetInProgressAction implements Action {
+  static type = 'gw2slots/registration/setInProgress'
+  type = RegistrationSetInProgressAction.type;
+}
+
 export class RegistrationSetSuccessAction implements Action {
   static type = 'gw2slots/registration/setSuccess';
   type = RegistrationSetSuccessAction.type;
