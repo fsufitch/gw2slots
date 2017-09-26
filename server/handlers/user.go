@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -72,15 +73,21 @@ func (h createUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if accountData.Access == "FreeToPlay" {
-		writeClientError(w, http.StatusForbidden, "free to play not allowed")
+	if len(accountData.Access) == 0 {
+		writeClientError(w, http.StatusForbidden, "no game access on this key (this should be impossible?)")
 		return
+	}
+	for _, access := range accountData.Access {
+		if access == "FreeToPlay" {
+			writeClientError(w, http.StatusForbidden, "free to play not allowed")
+			return
+		}
 	}
 
 	gameName := accountData.Name
 
 	if db.UserGameNameExists(tx, gameName) {
-		writeClientError(w, http.StatusConflict, "duplicate gamename")
+		writeClientError(w, http.StatusConflict, fmt.Sprintf("duplicate game name (%s); do you already have an account?", gameName))
 		return
 	}
 

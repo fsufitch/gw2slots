@@ -20,9 +20,9 @@ type Account struct {
 
 // AccountGetResponse contains data retrieved about an account
 type AccountGetResponse struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Access string `json:"access"` // PlayForFree | GuildWars2 | HeartOfThorns
+	ID     string   `json:"id"`
+	Name   string   `json:"name"`
+	Access []string `json:"access"` // [PlayForFree | GuildWars2 | HeartOfThorns]
 	// More fields omitted for simplicity. https://wiki.guildwars2.com/wiki/API:2/account
 }
 
