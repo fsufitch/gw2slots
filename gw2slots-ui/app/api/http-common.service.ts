@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { APIStateService, LoginStateService } from 'gw2slots-ui/store';
+import { LogoutAction } from './login.actions';
 
 interface CleanResponse<T> {
   status: number;
@@ -39,14 +40,12 @@ export class HTTPCommonService {
   private authToken$ = this.loginStateService.getAuthToken();
 
   clean<T>(response$: Observable<Response>, options: CleanResponseOptions={}): Observable<CleanResponse<T>> {
-    console.log('clean options', options);
     options = { // Defaults
       json: true,
       logoff403: true,
       reportError: true,
       ...options
     };
-
     console.log('clean options', options);
 
     let dualResponse$ = response$
@@ -84,7 +83,8 @@ export class HTTPCommonService {
   }
 
   logoff403() {
-    console.warn('I should be logging off due to a 403, but that is not implemented yet. Oops!');
+    console.error('403 Forbidden received, logging out');
+    this.loginStateService.dispatch(new LogoutAction());
   }
 
   reportError(error: any) {
@@ -102,16 +102,15 @@ export class HTTPCommonService {
   }
 
   simpleGet<T>(path: string, options: SimpleRequestOptions={}) {
-    console.log('get options', options);
     options = { // Defaults
       host: '',
       params: {},
       useToken: true,
       token: '',
+      headers: {},
       responseOptions: {},
       ...options,
     };
-    console.log('get options', options);
 
     let paramString = $.param(options.params);
 
@@ -125,6 +124,13 @@ export class HTTPCommonService {
     } else {
       headers$ = Observable.of(new Headers());
     }
+
+    headers$ = headers$.map(h => {
+      for (let key in options.headers) {
+        h.set(key, options.headers[key]);
+      }
+      return h;
+    });
 
     let host$: Observable<string>;
     if (!!options.host) {
@@ -170,7 +176,7 @@ export class HTTPCommonService {
         h.set(key, options.headers[key]);
       }
       return h;
-    })
+    });
 
     let host$: Observable<string>;
     if (!!options.host) {

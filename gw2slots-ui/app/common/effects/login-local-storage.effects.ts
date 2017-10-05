@@ -32,7 +32,7 @@ export class LoginLocalStorageEffects {
     .ofType(loginActions.LoadLoginFromLocalStorageAction.type)
     .map(() => this.localStorageService.getItem<LoginLocalStorageData>(LOGIN_STORAGE_KEY))
     .do(data => !data ? console.log('No session data to load') : void(0))
-    .filter(data => !!data)
+    .filter(data => !!data && !!data.authToken)
     .switchMap(data => Observable.of(
       new SetAuthenticatedAction(data),
       new FetchAndAuthenticateUserAction({authToken: data.authToken}),

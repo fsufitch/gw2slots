@@ -14,7 +14,7 @@ export interface UserState {
   usersByGameName: Map<string, User>,
 }
 export class UserState extends Record({
-  usersByID: Map.of(),
+  usersByUsername: Map.of(),
   usersByGameName: Map.of(),
 }) {
   putUser(u: User) {

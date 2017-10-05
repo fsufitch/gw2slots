@@ -29,7 +29,7 @@ export class UserEffects {
     }}));
 
   @Effect() fetchUserByGameName$ = this.actions$
-    .ofType(FetchUserByUsernameAction.type)
+    .ofType(FetchUserByGameNameAction.type)
     .map(a => (<FetchUserByGameNameAction>a).payload.gameName)
     .switchMap(gameName => this.httpCommon.simpleGet<UserResponseData>(`user/${gameName}`, {
       responseOptions: {logoff403: false},

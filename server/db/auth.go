@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"log"
 	"time"
 )
 
@@ -91,7 +90,6 @@ func GetValidAuthTokensForUser(tx *sql.Tx, username string) ([]AuthToken, error)
 		}
 		tokens = append(tokens, token)
 	}
-	log.Println(tokens)
 	return tokens, nil
 }
 

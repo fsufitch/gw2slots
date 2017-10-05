@@ -1,8 +1,10 @@
 <ng-template [ngIf]="!(loggedIn$ | async)">
-  <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" [(ngModel)]="inputUsername">
-  <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" [(ngModel)]="inputPassword">
-  <button class="btn btn-outline-primary my-2 my-sm-0 mr-sm-2" type="submit" (click)="login()">Log In</button>
-  <a class="btn btn-outline-secondary my-2 my-sm-0 mr-sm-2" type="submit" [routerLink]="['registration']">Register</a>
+  <form class="d-inline" (ngSubmit)="login()">
+    <input class="form-control mr-sm-2" type="text" name="loginUsername" placeholder="Username" aria-label="Username" [(ngModel)]="inputUsername">
+    <input class="form-control mr-sm-2" type="password" name="loginPassword" placeholder="Password" aria-label="Password" [(ngModel)]="inputPassword">
+    <button class="btn btn-outline-primary my-2 my-sm-0 mr-sm-2" type="submit">Log In</button>
+  </form>
+  <a class="btn btn-outline-secondary my-2 my-sm-0 mr-sm-2" [routerLink]="['registration']">Register</a>
 </ng-template>
 
 <ng-template [ngIf]="loggedIn$ | async">
