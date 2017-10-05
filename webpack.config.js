@@ -4,6 +4,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 var ENV = process.env.ENV;
 var isProd = (ENV === 'prod');
@@ -89,6 +90,7 @@ module.exports = () => {
       template: root('gw2slots-ui', 'index.html'),
       chunksSortMode: 'dependency',
     }),
+    new WebpackCleanupPlugin(),
   ];
 
   if (isProd) {
