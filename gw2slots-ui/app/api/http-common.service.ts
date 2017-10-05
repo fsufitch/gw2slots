@@ -135,7 +135,8 @@ export class HTTPCommonService {
 
     let response$ = Observable.combineLatest(host$, headers$)
       .take(1)
-      .switchMap(([host, headers]) => this.http.get(`//${host}/${path}${paramString}`, { headers }));
+      .switchMap(([host, headers]) => this.http.get(`//${host}/${path}${paramString}`, { headers }))
+      .share();
 
     return this.clean<T>(response$, options.responseOptions);
   }
@@ -180,7 +181,8 @@ export class HTTPCommonService {
 
     let response$ = Observable.combineLatest(host$, headers$)
       .take(1)
-      .switchMap(([host, headers]) => this.http.post(`//${host}/${path}${paramString}`, data, { headers }));
+      .switchMap(([host, headers]) => this.http.post(`//${host}/${path}${paramString}`, data, { headers }))
+      .share();
 
     return this.clean<T>(response$, options.responseOptions);
   }
