@@ -46,7 +46,6 @@ export class HTTPCommonService {
       reportError: true,
       ...options
     };
-    console.log('clean options', options);
 
     let dualResponse$ = response$
       .map(r => ({response: r, error: <HttpErrorResponse>null}))
