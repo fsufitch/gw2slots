@@ -45,6 +45,14 @@ export class LoginLocalStorageEffects {
       this.localStorageService.setItem<LoginLocalStorageData>(LOGIN_STORAGE_KEY, data, REMEMBER_EXPIRATION_MILLIS);
       console.log('Remembered login data in local store');
     })
-    .map(() => Observable.empty());
+    .flatMap(() => Observable.empty());
 
+
+  @Effect() clearLoginFromStore$ = this.actions$
+    .ofType(loginActions.ClearLoginFromLocalStorageAction.type)
+    .do(() => {
+      this.localStorageService.removeItem(LOGIN_STORAGE_KEY);
+      console.log('Removed login data from local store');
+    })
+    .flatMap(() => Observable.empty());
 }

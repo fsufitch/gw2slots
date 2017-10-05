@@ -7,7 +7,8 @@ import { FetchAndAuthenticateUserAction } from './auth.actions';
 import { FetchUserByUsernameAction } from './user.actions';
 
 import { HTTPCommonService } from './http-common.service';
-import { SetAuthenticatedAction, SetUnauthenticatedAction } from 'gw2slots-ui/store';
+import { SetAuthenticatedAction } from 'gw2slots-ui/store';
+import { LogoutAction } from './login.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -43,6 +44,6 @@ export class AuthEffects {
       }
     })
     .flatMap(() => Observable.of(
-      new SetUnauthenticatedAction(),
+      new LogoutAction(),
     ));
 }

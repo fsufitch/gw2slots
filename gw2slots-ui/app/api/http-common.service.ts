@@ -36,7 +36,7 @@ export class HTTPCommonService {
     private loginStateService: LoginStateService,
   ) {}
 
-  private apiHost$ = this.apiStateService.getAPIHost();
+  private apiHost$ = this.apiStateService.getAPIHost().filter(host => !!host);
   private authToken$ = this.loginStateService.getAuthToken();
 
   clean<T>(response$: Observable<Response>, options: CleanResponseOptions={}): Observable<CleanResponse<T>> {

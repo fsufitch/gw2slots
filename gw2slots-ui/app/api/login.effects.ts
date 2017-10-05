@@ -12,6 +12,10 @@ import {
 import { HTTPCommonService } from './http-common.service';
 import { LoginAction, LogoutAction } from './login.actions';
 import { FetchUserByUsernameAction } from './user.actions';
+import {
+  SaveLoginToLocalStorageAction,
+  ClearLoginFromLocalStorageAction,
+} from 'gw2slots-ui/app/common/effects';
 
 interface LoginResponseData {
   auth_token: string,
@@ -44,7 +48,8 @@ export class LoginEffects {
     .flatMap(({response, username}) => Observable.of(
       new SetAuthenticatedAction({username, authToken: response.data.auth_token}),
       new FetchUserByUsernameAction({username}),
-    ));
+      new SaveLoginToLocalStorageAction({username, authToken: response.data.auth_token}),
+    )).do(x => console.log(x));
 
   @Effect() loginFailure403$ = this.login$
     .filter(({response}) => response.status == 403)
@@ -57,14 +62,15 @@ export class LoginEffects {
     .map(() => new SetLoginStatusAction({status: LoginStatus.Unauthenticated}));
 
 
-  logout$ = this.actions$
+  @Effect() logout$ = this.actions$
     .ofType(LogoutAction.type)
     .switchMap(() => this.httpCommon.simpleGet('auth/logout', {
       responseOptions: {json: false, logoff403: false},
-    })).share();
-
-  @Effect() logoutSuccess$ = this.logout$
-    .filter(({error}) => !error)
-    .map(() => new SetUnauthenticatedAction());
-
+    }))
+    .share()
+    .do(({error}) => !!error ? console.error(error) : void(0))
+    .flatMap(() => Observable.of(
+      new SetUnauthenticatedAction(),
+      new ClearLoginFromLocalStorageAction(),
+    ));
 }
